@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <!--Aqui es cambiará els Fragments segons el botó clicat -->
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="683dp" />
+
+    <!--La barra per navegar entre Fragments -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/btnNav"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/Background"
+
+        android:font="@font/roboto"
+        app:itemIconTint="@drawable/color_botonera_inferior"
+        app:itemTextColor="@drawable/color_botonera_inferior"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/botonera_menu" />
+</RelativeLayout>

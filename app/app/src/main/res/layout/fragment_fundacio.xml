@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context=".HomeFragment"
+    android:orientation="vertical"
+    android:weightSum="4">
+
+    <!--Header amb el botó de cambiar de TextSize -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@color/Background"
+        android:scaleType="fitEnd"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <!--Botó -->
+        <ImageButton
+            android:id="@+id/searchImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:layout_weight="4"
+            android:contentDescription="@string/TextFundacio"
+            android:scaleType="fitEnd"
+            android:src="@mipmap/ic_textsize_foreground" />
+    </LinearLayout>
+    <!--Scroll de tota l'imatge i Text View -->
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                android:background="@color/Background"
+                android:layout_marginTop="0dp"
+                android:layout_weight="0">
+
+                <!--Imatge -->
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:layout_marginStart="-30dp"
+                    android:layout_marginTop="-30dp"
+                    android:scaleType="fitStart"
+                    android:src="@mipmap/lg_coleccio_foreground" />
+            </LinearLayout>
+
+            <!-- Text Layout -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginTop="0dp"
+                android:font="@font/roboto">
+
+                <!-- Text -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="55dp"
+                    android:font="@font/roboto"
+                    android:text="@string/TextFundacio"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

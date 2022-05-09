@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardElevation="2dp"
+        android:layout_margin="2dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="2dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
+
+        <TextView
+            android:id="@+id/tvCognomsArtista"
+            android:layout_width="224dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginLeft="170dp"
+            android:layout_marginTop="35dp"
+            android:text="Cognoms"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvEnllaçosArtista" />
+
+        <TextView
+            android:id="@+id/tvNomArtista"
+            android:layout_width="224dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="170dp"
+            android:textStyle="bold|italic"
+            android:text="Nom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvEnllaçosArtista"
+            android:layout_width="224dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="170dp"
+            android:layout_marginTop="60dp"
+            android:text="Enllaços"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNomArtista" />
+
+        <ImageView
+            android:id="@+id/ivArtista"
+            android:layout_width="156dp"
+            android:adjustViewBounds="true"
+            android:cropToPadding="false"
+            android:scaleType="fitXY"
+            android:layout_height="182dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvCognomsArtista"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="-4dp"
+            android:layout_marginStart="-4dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ImageContrastCheck"
+            tools:srcCompat="@drawable/fotoartista1" />
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

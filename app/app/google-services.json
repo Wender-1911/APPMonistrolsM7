@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "920517836734",
+    "firebase_url": "https://fir-m7uf1appescultures-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "fir-m7uf1appescultures",
+    "storage_bucket": "fir-m7uf1appescultures.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920517836734:android:62b6483244a73e98fec3ef",
+        "android_client_info": {
+          "package_name": "com.wender.activitatbotonera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920517836734-n889moe29miek5g9tp7tpi3laqv7e0fd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_d__j9mFnYpEtbJS-jd47zDjq58vs_dg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920517836734-n889moe29miek5g9tp7tpi3laqv7e0fd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920517836734:android:389b7c07ebc9e29cfec3ef",
+        "android_client_info": {
+          "package_name": "com.wender.insertimatgesfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920517836734-n889moe29miek5g9tp7tpi3laqv7e0fd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_d__j9mFnYpEtbJS-jd47zDjq58vs_dg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920517836734-n889moe29miek5g9tp7tpi3laqv7e0fd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
