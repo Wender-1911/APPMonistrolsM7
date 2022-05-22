@@ -66,4 +66,5 @@
             tools:ignore="ImageContrastCheck"
             tools:srcCompat="@drawable/fotoartista1" />
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

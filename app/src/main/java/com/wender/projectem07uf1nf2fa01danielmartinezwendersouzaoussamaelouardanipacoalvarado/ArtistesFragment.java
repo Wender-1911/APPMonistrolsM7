@@ -27,6 +27,7 @@ public class ArtistesFragment extends Fragment {
     FirebaseFirestore db;
     ArtistaAdapterFirestore adapter;
     private FirebaseStorage storage;
+
     public ArtistesFragment() {
         // Required empty public constructor
     }
@@ -60,10 +61,10 @@ public class ArtistesFragment extends Fragment {
         rvArtistes.setLayoutManager(new LinearLayoutManager(context));
         Query consulta = db.collection("Artistes").limit(50);
         FirestoreRecyclerOptions<Artista> opcions =
-                new FirestoreRecyclerOptions
-                        .Builder<Artista>()
-                        .setQuery(consulta, Artista.class)
-                        .build();
+            new FirestoreRecyclerOptions
+                .Builder<Artista>()
+                .setQuery(consulta, Artista.class)
+                .build();
 
         adapter = new ArtistaAdapterFirestore(opcions);
         rvArtistes.setAdapter(adapter);

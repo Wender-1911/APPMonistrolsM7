@@ -16,15 +16,14 @@ import com.google.firebase.firestore.Query;
 
 public class EsculturesFragment extends Fragment {
 
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
 
     private String mParam1;
     private String mParam2;
 
     private Context context;
+
     RecyclerView rvEscultures;
     FirebaseFirestore db;
     EsculturaAdapterFirestore adapter;
@@ -32,7 +31,6 @@ public class EsculturesFragment extends Fragment {
     public EsculturesFragment() {
 
     }
-
 
     public static EsculturesFragment newInstance(String param1, String param2) {
         EsculturesFragment fragment = new EsculturesFragment();
