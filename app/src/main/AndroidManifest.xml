@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ActivitatBotonera">
         <activity
+            android:name=".FitxaDetalladaArtistes"
+            android:exported="false" />
+        <activity
             android:name=".FitxaDetalladaEscultures"
             android:exported="false" />
 
