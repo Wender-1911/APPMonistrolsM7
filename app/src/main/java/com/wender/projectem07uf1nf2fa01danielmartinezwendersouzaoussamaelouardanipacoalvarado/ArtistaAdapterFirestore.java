@@ -14,33 +14,73 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-public class ArtistaAdapterFirestore extends FirestoreRecyclerAdapter<Artista, ArtistaAdapterFirestore.ArtistaHolder>{
+public class ArtistaAdapterFirestore
+        extends FirestoreRecyclerAdapter<Artista,
+        ArtistaAdapterFirestore.ArtistaHolder>
+        implements View.OnClickListener{
+
+    private String nom;
+    private String cognom;
+    private Bitmap imatge;
+
+    private View.OnClickListener listener;
 
     public ArtistaAdapterFirestore(@NonNull FirestoreRecyclerOptions<Artista> options) {
         super(options);
     }
 
+    public String getNom() {
+        return nom;
+    }
+    public String getCognom() {
+        return cognom;
+    }
+    public Bitmap getImatge() {
+        return imatge;
+    }
     @Override
     protected void onBindViewHolder(@NonNull ArtistaHolder holder, int position, @NonNull Artista model) {
-        holder.tvNomArtista.setText(model.getNom());
-        holder.tvCognomsArtista.setText(model.getCognoms());
+
+        nom = model.getNom();
+        cognom = model.getCognoms();
+
+        holder.tvNomArtista.setText(nom);
+        holder.tvCognomsArtista.setText(cognom);
         //holder.ivArtista.setImageResource(R.drawable.fotoartista1);
+
         Bitmap bmp = BitmapFactory.decodeByteArray(model.getFoto().toBytes(), 0, model.getFoto().toBytes().length);
+        imatge = bmp;
+
         holder.ivArtista.setImageBitmap(
-                Bitmap.createScaledBitmap(
-                        bmp, 400, 400, true));
+            Bitmap.createScaledBitmap(
+                    bmp, 400, 400, true));
     }
 
     @NonNull
     @Override
     public ArtistaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.artistes, parent, false);
+
+        view.setOnClickListener(this);
+
         return new ArtistaHolder(view);
+    }
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if ( listener != null ) {
+            listener.onClick(view);
+        }
     }
 
     public class ArtistaHolder extends RecyclerView.ViewHolder {
         ImageView ivArtista;
-        TextView tvNomArtista, tvCognomsArtista;
+        TextView tvNomArtista;
+        TextView tvCognomsArtista;
         public ArtistaHolder(@NonNull View itemView) {
             super(itemView);
 
