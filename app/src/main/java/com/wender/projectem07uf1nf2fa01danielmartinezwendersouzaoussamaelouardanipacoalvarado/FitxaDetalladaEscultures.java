@@ -41,9 +41,9 @@ public class FitxaDetalladaEscultures extends AppCompatActivity {
             String filename = extras.getString("imatge");
 
             imatge = new ImageSaver(getApplicationContext())
-                    .setFileName(filename)
-                    .setDirectoryName("images")
-                    .load();
+                .setFileName(filename)
+                .setDirectoryName("images")
+                .load();
 
             nom = extras.getString("nom");
 

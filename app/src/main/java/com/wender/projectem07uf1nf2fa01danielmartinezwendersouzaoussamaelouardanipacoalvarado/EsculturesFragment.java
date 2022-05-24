@@ -29,6 +29,7 @@ public class EsculturesFragment extends Fragment {
     private Context context;
 
     RecyclerView rvEscultures;
+
     FirebaseFirestore db;
     EsculturaAdapterFirestore adapter;
 

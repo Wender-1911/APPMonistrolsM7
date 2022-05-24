@@ -22,9 +22,13 @@ public class EsculturaAdapterFirestore
 
     private String nom;
     private Bitmap imatge;
+    private Double latitud;
+    private Double longitud;
 
     private ArrayList<String> llistaNoms = new ArrayList<String>();
     private ArrayList<Bitmap> llistaImatges = new ArrayList<Bitmap>();
+    private ArrayList<Double> llistaLatitud = new ArrayList<Double>();
+    private ArrayList<Double> llistaLongitud = new ArrayList<Double>();
 
     private View.OnClickListener listener;
 
@@ -33,6 +37,12 @@ public class EsculturaAdapterFirestore
     }
     public ArrayList<Bitmap> getLlistaImatges() {
         return llistaImatges;
+    }
+    public ArrayList<Double> getLlistaLatitud() {
+        return llistaLatitud;
+    }
+    public ArrayList<Double> getLlistaLongitud() {
+        return llistaLongitud;
     }
 
     public EsculturaAdapterFirestore(@NonNull FirestoreRecyclerOptions<Escultura> options) {
@@ -45,7 +55,7 @@ public class EsculturaAdapterFirestore
 
     @Override
     public void onClick(View view) {
-        if ( listener != null ) {
+        if (listener != null) {
             listener.onClick(view);
         }
     }
@@ -53,19 +63,15 @@ public class EsculturaAdapterFirestore
     protected void onBindViewHolder(@NonNull EsculturaHolder holder, int position, @NonNull Escultura model) {
 
         nom = model.getNom().get("ca");
-
         llistaNoms.add(nom);
-
         holder.tvNomEscultura.setText(nom);
 
-        //holder.ivEscultura.setImageResource(R.drawable.foto2);
         imatge = BitmapFactory.decodeByteArray(model.getImatges().get(0).toBytes(), 0, model.getImatges().get(0).toBytes().length);
-
         llistaImatges.add(imatge);
 
         holder.ivEscultura.setImageBitmap(
             Bitmap.createScaledBitmap(
-                    imatge, 400, 400, true
+                imatge, 400, 400, true
             )
         );
     }
