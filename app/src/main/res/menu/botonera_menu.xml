@@ -5,4 +5,5 @@
     <item android:id="@+id/vista_mapa" android:title="Mapa" android:icon="@mipmap/ic_mapa_boto_foreground"/>
     <item android:id="@+id/vista_escultures" android:title="Escultures" android:icon="@mipmap/ic_escultures_boto_foreground"/>
     <item android:id="@+id/vista_artistes" android:title="Artistes" android:icon="@mipmap/ic_artistess_boto_foreground"/>
+
 </menu>

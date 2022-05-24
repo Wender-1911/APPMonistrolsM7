@@ -14,46 +14,58 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
+import java.util.ArrayList;
+
 public class ArtistaAdapterFirestore
         extends FirestoreRecyclerAdapter<Artista,
         ArtistaAdapterFirestore.ArtistaHolder>
-        implements View.OnClickListener{
+        implements View.OnClickListener {
 
     private String nom;
     private String cognom;
     private Bitmap imatge;
 
+    private ArrayList<String> llistaNoms = new ArrayList<String>();
+    private ArrayList<String> llistaCognoms = new ArrayList<String>();
+    private ArrayList<Bitmap> llistaImatges = new ArrayList<Bitmap>();
+
     private View.OnClickListener listener;
+
+    public ArrayList<String> getLlistaNoms() {
+        return llistaNoms;
+    }
+    public ArrayList<String> getLlistaCognoms() {
+        return llistaCognoms;
+    }
+    public ArrayList<Bitmap> getLlistaImatges() {
+        return llistaImatges;
+    }
 
     public ArtistaAdapterFirestore(@NonNull FirestoreRecyclerOptions<Artista> options) {
         super(options);
     }
 
-    public String getNom() {
-        return nom;
-    }
-    public String getCognom() {
-        return cognom;
-    }
-    public Bitmap getImatge() {
-        return imatge;
-    }
     @Override
     protected void onBindViewHolder(@NonNull ArtistaHolder holder, int position, @NonNull Artista model) {
 
         nom = model.getNom();
         cognom = model.getCognoms();
 
+        llistaNoms.add(nom);
+        llistaCognoms.add(cognom);
+
+
         holder.tvNomArtista.setText(nom);
         holder.tvCognomsArtista.setText(cognom);
         //holder.ivArtista.setImageResource(R.drawable.fotoartista1);
 
-        Bitmap bmp = BitmapFactory.decodeByteArray(model.getFoto().toBytes(), 0, model.getFoto().toBytes().length);
-        imatge = bmp;
+        imatge = BitmapFactory.decodeByteArray(model.getFoto().toBytes(), 0, model.getFoto().toBytes().length);
+
+        llistaImatges.add(imatge);
 
         holder.ivArtista.setImageBitmap(
-            Bitmap.createScaledBitmap(
-                    bmp, 400, 400, true));
+            Bitmap.createScaledBitmap(imatge, 400, 400, true)
+        );
     }
 
     @NonNull

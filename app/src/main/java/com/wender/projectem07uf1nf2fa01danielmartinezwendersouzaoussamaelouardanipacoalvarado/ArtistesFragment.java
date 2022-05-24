@@ -1,6 +1,8 @@
 package com.wender.projectem07uf1nf2fa01danielmartinezwendersouzaoussamaelouardanipacoalvarado;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,6 +24,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class ArtistesFragment extends Fragment {
@@ -31,13 +34,18 @@ public class ArtistesFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
+
     private Context context;
+
     RecyclerView rvArtistes;
     FirebaseFirestore db;
     ArtistaAdapterFirestore adapter;
+
     private FirebaseStorage storage;
 
-    private ArrayList<Artista> artistes;
+    private ArrayList<String> llistaNom = new ArrayList<String>();
+    private ArrayList<String> llistaCognoms = new ArrayList<String>();
+    private ArrayList<Bitmap> llistaImatges = new ArrayList<Bitmap>();
 
     public ArtistesFragment() {
         // Required empty public constructor
@@ -59,7 +67,6 @@ public class ArtistesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -67,10 +74,10 @@ public class ArtistesFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_artistes, container, false);
+
         db = FirebaseFirestore.getInstance();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
 
         rvArtistes = (RecyclerView)view.findViewById(R.id.rvArtistes);
 
@@ -87,15 +94,32 @@ public class ArtistesFragment extends Fragment {
 
         adapter = new ArtistaAdapterFirestore(opcions);
 
+        llistaNom = adapter.getLlistaNoms();
+        llistaCognoms = adapter.getLlistaCognoms();
+        llistaImatges = adapter.getLlistaImatges();
+
         rvArtistes.setAdapter(adapter);
 
         adapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Fer un intent a FitxaDetallaArtistas pasan el nom, cognom, imatge, i descripcio
+                int posicio = rvArtistes.getChildAdapterPosition(view);
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                llistaImatges.get(posicio).compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                Intent intent = new Intent(ArtistesFragment.this.getActivity(), FitxaDetalladaArtistes.class);
+
+                intent.putExtra("nom", llistaNom.get(posicio));
+                intent.putExtra("cognom", llistaCognoms.get(posicio));
+                intent.putExtra("imatge", byteArray);
+
+                startActivity(intent);
+
                 System.out.println(
-                        "Inten"
-                    //artistes.get(rvArtistes.getChildAdapterPosition(view)).getNom()
+                    llistaNom.get(posicio) + "\n" + llistaCognoms.get(posicio) + "\n" + llistaImatges.get(posicio)
                 );
             }
         });
