@@ -79,9 +79,7 @@ public class Artista {
     }
 
     public void setAnyDefuncio(Integer anyDefuncio) {
-        if (anyDefuncio > 0 && anyDefuncio != null) {
-            this.anyDefuncio = anyDefuncio;
-        }
+        this.anyDefuncio = anyDefuncio;
     }
 
     public Map<String, String> getBiografia() {

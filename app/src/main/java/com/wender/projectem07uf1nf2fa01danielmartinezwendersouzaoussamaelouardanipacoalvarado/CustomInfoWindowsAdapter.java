@@ -17,7 +17,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.Marker;
 
-public class CustomInfoWindowsAdapter implements GoogleMap.InfoWindowAdapter{
+public class CustomInfoWindowsAdapter
+        implements GoogleMap.InfoWindowAdapter,
+        View.OnClickListener
+{
+    private View.OnClickListener listener;
 
     private final View mWindwow;
     private Context mContext;
@@ -67,5 +71,16 @@ public class CustomInfoWindowsAdapter implements GoogleMap.InfoWindowAdapter{
     public View getInfoWindow(@NonNull Marker marker) {
         rendowWindowText(marker, mWindwow);
         return mWindwow;
+    }
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if ( listener != null ) {
+            listener.onClick(view);
+        }
     }
 }

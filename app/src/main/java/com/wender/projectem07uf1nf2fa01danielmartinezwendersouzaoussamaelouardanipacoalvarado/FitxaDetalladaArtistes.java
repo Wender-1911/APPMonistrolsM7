@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +23,7 @@ public class FitxaDetalladaArtistes extends AppCompatActivity {
 
     TextView tvNomCognom;
     ImageView ivImatge;
+    ImageButton ibReturn;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -27,8 +31,16 @@ public class FitxaDetalladaArtistes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fitxa_detallada_artistes);
 
+        ibReturn = (ImageButton) findViewById(R.id.returnArtistes);
         tvNomCognom = (TextView) findViewById(R.id.tvNomArtista);
         ivImatge = (ImageView) findViewById(R.id.ivFotoArtista);
+
+        ibReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Return Button
+            }
+        });
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
