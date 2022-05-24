@@ -32,7 +32,7 @@ public class FitxaDetalladaEscultures extends AppCompatActivity {
         ibReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Return Button
+                onBackPressed();
             }
         });
 
@@ -50,5 +50,9 @@ public class FitxaDetalladaEscultures extends AppCompatActivity {
             ivImatge.setImageBitmap(imatge);
             tvNom.setText(nom);
         }
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

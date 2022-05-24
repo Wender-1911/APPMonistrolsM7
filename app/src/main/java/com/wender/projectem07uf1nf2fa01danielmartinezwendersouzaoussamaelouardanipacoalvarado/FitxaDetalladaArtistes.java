@@ -3,6 +3,8 @@ package com.wender.projectem07uf1nf2fa01danielmartinezwendersouzaoussamaelouarda
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -38,7 +40,7 @@ public class FitxaDetalladaArtistes extends AppCompatActivity {
         ibReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Return Button
+                onBackPressed();
             }
         });
 
@@ -58,5 +60,11 @@ public class FitxaDetalladaArtistes extends AppCompatActivity {
             ivImatge.setImageBitmap(imatge);
             tvNomCognom.setText(nom + " " + cognom);
         }
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // perform your action here
+
     }
 }

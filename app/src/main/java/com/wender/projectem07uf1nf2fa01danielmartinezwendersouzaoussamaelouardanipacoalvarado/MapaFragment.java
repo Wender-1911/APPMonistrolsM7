@@ -1,9 +1,12 @@
 package com.wender.projectem07uf1nf2fa01danielmartinezwendersouzaoussamaelouardanipacoalvarado;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +18,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -27,13 +35,10 @@ public class MapaFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    FirebaseFirestore db;
-    EsculturaAdapterFirestore adapter;
-
     private ArrayList<String> llistaNom = new ArrayList<String>();
     private ArrayList<Bitmap> llistaImatges = new ArrayList<Bitmap>();
-    private ArrayList<String> llistaLatitud = new ArrayList<String>();
-    private ArrayList<Bitmap> llistaLongitud = new ArrayList<Bitmap>();
+    private ArrayList<Double> llistaLatitud = new ArrayList<>();
+    private ArrayList<Double> llistaLongitud = new ArrayList<>();
 
     private String mParam1;
     private String mParam2;
@@ -71,29 +76,60 @@ public class MapaFragment extends Fragment {
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
+                mMap.clear(); //clear old markers
+                BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.mapaicone);
+                Bitmap b=bitmapdraw.getBitmap();
+
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 44, 44, false);
 
                 LatLng target = new LatLng(41.760524, 2.015460);
-                MarkerOptions options = new MarkerOptions()
-                    .position(target)
-                    .title(Escultura.class.getName())
-                    .snippet(Artista.class.getName());
 
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                db.collection("Escultures")
+                        //.document()
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                   @Override
+                                                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                       if (task.isSuccessful()) {
+                                                           for (QueryDocumentSnapshot doc : task.getResult()) {
+                                                               Escultura esc = doc.toObject(Escultura.class);
+                                                               mMap.addMarker(new MarkerOptions()
+                                                                       .position(new LatLng(esc.getLatitud(), esc.getLongitud()))
+                                                                       .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
+                                                           }
+                                                       }
+                                                   }
+                                               }
+
+                        );
                 CustomInfoWindowsAdapter info = new CustomInfoWindowsAdapter(
-                    MapaFragment.this.getActivity(),
-                    "Titol",
-                    "Artista",
-                    (BitmapDrawable) getResources().getDrawable(R.drawable.foto1)
+                        MapaFragment.this.getActivity(),
+                        "Titol",
+                        "Artista",
+                        (BitmapDrawable) getResources().getDrawable(R.drawable.foto1)
                 );
-
-                mMap.addMarker(options);
+                mMap.setInfoWindowAdapter(
+                        info
+                );
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(target, 13));
                 mMap.getUiSettings().setZoomControlsEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-                mMap.setInfoWindowAdapter(
-                    info
+                /*
+                CustomInfoWindowsAdapter info = new CustomInfoWindowsAdapter(
+                        MapaFragment.this.getActivity(),
+                        "Titol",
+                        "Artista",
+                        (BitmapDrawable) getResources().getDrawable(R.drawable.foto1)
                 );
+
+                mMap.setInfoWindowAdapter(
+                        info
+                );*/
+
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(@NonNull Marker marker) {
