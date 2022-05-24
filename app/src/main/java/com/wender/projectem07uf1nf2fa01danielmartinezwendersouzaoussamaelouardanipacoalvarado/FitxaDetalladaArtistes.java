@@ -2,6 +2,7 @@ package com.wender.projectem07uf1nf2fa01danielmartinezwendersouzaoussamaelouarda
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +21,7 @@ public class FitxaDetalladaArtistes extends AppCompatActivity {
     TextView tvNomCognom;
     ImageView ivImatge;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,18 +34,14 @@ public class FitxaDetalladaArtistes extends AppCompatActivity {
         if (extras != null) {
 
             String filename = extras.getString("imatge");
-            //imatge = loadImageBitmap(this.getApplicationContext(), filename);
 
             imatge = new ImageSaver(getApplicationContext())
                     .setFileName(filename)
                     .setDirectoryName("images")
                     .load();
 
-            // byte[] byteArray = extras.getByteArray("imatge");
             nom = extras.getString("nom");
             cognom = extras.getString("cognom");
-
-            //imatge = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
             ivImatge.setImageBitmap(imatge);
             tvNomCognom.setText(nom + " " + cognom);

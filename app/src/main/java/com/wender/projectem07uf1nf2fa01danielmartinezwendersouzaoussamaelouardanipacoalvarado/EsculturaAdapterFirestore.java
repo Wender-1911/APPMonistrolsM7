@@ -14,26 +14,69 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-public class EsculturaAdapterFirestore extends FirestoreRecyclerAdapter<Escultura, EsculturaAdapterFirestore.EsculturaHolder> {
+import java.util.ArrayList;
+
+public class EsculturaAdapterFirestore
+        extends FirestoreRecyclerAdapter<Escultura, EsculturaAdapterFirestore.EsculturaHolder>
+        implements View.OnClickListener {
+
+    private String nom;
+    private Bitmap imatge;
+
+    private ArrayList<String> llistaNoms = new ArrayList<String>();
+    private ArrayList<Bitmap> llistaImatges = new ArrayList<Bitmap>();
+
+    private View.OnClickListener listener;
+
+    public ArrayList<String> getLlistaNoms() {
+        return llistaNoms;
+    }
+    public ArrayList<Bitmap> getLlistaImatges() {
+        return llistaImatges;
+    }
 
     public EsculturaAdapterFirestore(@NonNull FirestoreRecyclerOptions<Escultura> options) {
         super(options);
     }
 
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if ( listener != null ) {
+            listener.onClick(view);
+        }
+    }
     @Override
     protected void onBindViewHolder(@NonNull EsculturaHolder holder, int position, @NonNull Escultura model) {
-        holder.tvNomEscultura.setText(model.getNom().get("ca"));
+
+        nom = model.getNom().get("ca");
+
+        llistaNoms.add(nom);
+
+        holder.tvNomEscultura.setText(nom);
+
         //holder.ivEscultura.setImageResource(R.drawable.foto2);
-        Bitmap bmp = BitmapFactory.decodeByteArray(model.getImatges().get(0).toBytes(), 0, model.getImatges().get(0).toBytes().length);
+        imatge = BitmapFactory.decodeByteArray(model.getImatges().get(0).toBytes(), 0, model.getImatges().get(0).toBytes().length);
+
+        llistaImatges.add(imatge);
+
         holder.ivEscultura.setImageBitmap(
-                Bitmap.createScaledBitmap(
-                        bmp, 400, 400, true));
+            Bitmap.createScaledBitmap(
+                    imatge, 400, 400, true
+            )
+        );
     }
 
     @NonNull
     @Override
     public EsculturaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.escultures, parent, false);
+
+        view.setOnClickListener(this);
+
         return new EsculturaHolder(view);
     }
 

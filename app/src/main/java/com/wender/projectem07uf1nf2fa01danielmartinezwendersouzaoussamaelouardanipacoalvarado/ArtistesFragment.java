@@ -96,30 +96,7 @@ public class ArtistesFragment extends Fragment {
         adapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Fer un intent a FitxaDetallaArtistas pasan el nom, cognom, imatge, i descripcio
-                int posicio = rvArtistes.getChildAdapterPosition(view);
-
-                try {
-                    String filename = llistaNom.get(posicio) + "_" + llistaCognoms.get(posicio).replace(" ", "_") + ".png";
-
-                    //saveImage(context, llistaImatges.get(posicio), filename);
-                    new ImageSaver(getContext())
-                            .setFileName(filename)
-                            .setDirectoryName("images")
-                            .save(llistaImatges.get(posicio));
-                    //Write file
-
-                    //Pop intent
-                    Intent intent = new Intent(ArtistesFragment.this.getActivity(), FitxaDetalladaArtistes.class);
-
-                    intent.putExtra("nom", llistaNom.get(posicio));
-                    intent.putExtra("cognom", llistaCognoms.get(posicio));
-                    intent.putExtra("imatge", filename);
-
-                    startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                ClickEvent(view);
             }
         });
         return view;
@@ -138,4 +115,30 @@ public class ArtistesFragment extends Fragment {
         adapter.stopListening();
     }
 
+    public void ClickEvent(View view) {
+        // Fer un intent a FitxaDetallaArtistas pasan el nom, cognom, imatge, i descripcio
+        int posicio = rvArtistes.getChildAdapterPosition(view);
+
+        try {
+            String filename = llistaNom.get(posicio) + "_" + llistaCognoms.get(posicio).replace(" ", "_") + ".png";
+
+            //saveImage(context, llistaImatges.get(posicio), filename);
+            new ImageSaver(getContext())
+                    .setFileName(filename)
+                    .setDirectoryName("images")
+                    .save(llistaImatges.get(posicio));
+            //Write file
+
+            //Pop intent
+            Intent intent = new Intent(ArtistesFragment.this.getActivity(), FitxaDetalladaArtistes.class);
+
+            intent.putExtra("nom", llistaNom.get(posicio));
+            intent.putExtra("cognom", llistaCognoms.get(posicio));
+            intent.putExtra("imatge", filename);
+
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

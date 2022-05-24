@@ -17,8 +17,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import java.util.ArrayList;
 
 public class ArtistaAdapterFirestore
-        extends FirestoreRecyclerAdapter<Artista,
-        ArtistaAdapterFirestore.ArtistaHolder>
+        extends FirestoreRecyclerAdapter<Artista, ArtistaAdapterFirestore.ArtistaHolder>
         implements View.OnClickListener {
 
     private String nom;
@@ -53,7 +52,6 @@ public class ArtistaAdapterFirestore
 
         llistaNoms.add(nom);
         llistaCognoms.add(cognom);
-
 
         holder.tvNomArtista.setText(nom);
         holder.tvCognomsArtista.setText(cognom);
