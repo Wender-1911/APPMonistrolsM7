@@ -37,6 +37,8 @@ public class MapaFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     private ArrayList<String> llistaNom = new ArrayList<String>();
+    private ArrayList<String> llistaNomArtista = new ArrayList<String>();
+    private ArrayList<String> llistaCogomArtista = new ArrayList<String>();
     private ArrayList<Bitmap> llistaImatges = new ArrayList<Bitmap>();
     private ArrayList<Double> llistaLatitud = new ArrayList<>();
     private ArrayList<Double> llistaLongitud = new ArrayList<>();
@@ -90,7 +92,21 @@ public class MapaFragment extends Fragment {
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                ArrayList<CustomInfoWindowsAdapter> info = new ArrayList<CustomInfoWindowsAdapter>();
+                db.collection("Artistes")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                                        Artista art = doc.toObject(Artista.class);
+
+                                        llistaNomArtista.add(art.getNom());
+                                        llistaCogomArtista.add(art.getCognoms());
+                                    }
+                                }
+                            }
+                        });
 
                 db.collection("Escultures")
                     //.document()
@@ -112,26 +128,19 @@ public class MapaFragment extends Fragment {
                                         .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
                                     );
 
-                                    info.add(new CustomInfoWindowsAdapter(
-                                        MapaFragment.this.getActivity(),
-                                        esc.getNom().get("ca"),
-                                        esc.getArtista(),
-                                        imatge
-                                    ));
-
-                                    mMap.setInfoWindowAdapter(info.get(pos));
+                                    pos++;
                                 }
                             }
                         }
                     });
+
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(@NonNull Marker marker) {
-                        String id = marker.getId();
-                        id = id.substring(1);
-                        int idNumber = Integer.parseInt(id);
-                        System.out.println(idNumber);
-                        ClickEvent(idNumber);
+
+                        int id = Integer.parseInt(marker.getId().substring(1));
+
+                        ClickEvent(id);
                     }
                 });
 
@@ -142,7 +151,20 @@ public class MapaFragment extends Fragment {
                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
+
+                        int id = Integer.parseInt(marker.getId().substring(1));
+
+                        CustomInfoWindowsAdapter info = new CustomInfoWindowsAdapter(
+                                MapaFragment.this.getActivity(),
+                                llistaNom.get(id),
+                                llistaNomArtista.get(id) + " " + llistaCogomArtista.get(id),
+                                llistaImatges.get(id)
+                        );
+
+                        mMap.setInfoWindowAdapter(info);
+
                         marker.showInfoWindow();
+
                         return true;
                     }
                 });

@@ -36,14 +36,17 @@ public class CustomInfoWindowsAdapter implements GoogleMap.InfoWindowAdapter
     private Context mContext;
 
     private String title;
-    private DocumentReference artista;
+    private String artista;
     private Bitmap image;
+
+    private Artista artistaClass;
 
     public CustomInfoWindowsAdapter(
             Context context,
             String title,
-            DocumentReference artista,
-            Bitmap image) {
+            String artista,
+            Bitmap image
+    ){
         mContext = context;
         this.title = title;
         this.artista = artista;
@@ -57,14 +60,14 @@ public class CustomInfoWindowsAdapter implements GoogleMap.InfoWindowAdapter
 
         picture.setImageBitmap(selectedImage);
 
-        String title = this.title.toString();
+        String title = this.title;
         TextView tvTitle = (TextView) view.findViewById(R.id.title);
 
         if (!title.equals("")) {
             tvTitle.setText(title);
         }
 
-        String snippet = this.artista.toString();
+        String snippet = this.artista;
         TextView tvSnipper = (TextView) view.findViewById(R.id.author);
 
         if(!snippet.equals("")) {
