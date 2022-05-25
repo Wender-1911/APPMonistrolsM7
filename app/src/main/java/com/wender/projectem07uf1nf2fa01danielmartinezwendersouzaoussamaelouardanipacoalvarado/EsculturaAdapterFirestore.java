@@ -38,12 +38,6 @@ public class EsculturaAdapterFirestore
     public ArrayList<Bitmap> getLlistaImatges() {
         return llistaImatges;
     }
-    public ArrayList<Double> getLlistaLatitud() {
-        return llistaLatitud;
-    }
-    public ArrayList<Double> getLlistaLongitud() {
-        return llistaLongitud;
-    }
 
     public EsculturaAdapterFirestore(@NonNull FirestoreRecyclerOptions<Escultura> options) {
         super(options);

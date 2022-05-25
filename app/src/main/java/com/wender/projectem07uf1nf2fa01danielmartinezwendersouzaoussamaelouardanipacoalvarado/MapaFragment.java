@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +44,8 @@ public class MapaFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    int pos = 0;
+
     public MapaFragment() {
         // Required empty public constructor
     }
@@ -77,65 +80,64 @@ public class MapaFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 mMap.clear(); //clear old markers
-                BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.mapaicone);
-                Bitmap b=bitmapdraw.getBitmap();
 
-                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 44, 44, false);
+                BitmapDrawable bitmapdraw = (BitmapDrawable)getResources().getDrawable(R.drawable.mapaicone);
+                Bitmap b = bitmapdraw.getBitmap();
+
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 44, 64, false);
 
                 LatLng target = new LatLng(41.760524, 2.015460);
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                db.collection("Escultures")
-                        //.document()
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                   @Override
-                                                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                       if (task.isSuccessful()) {
-                                                           for (QueryDocumentSnapshot doc : task.getResult()) {
-                                                               Escultura esc = doc.toObject(Escultura.class);
-                                                               mMap.addMarker(new MarkerOptions()
-                                                                       .position(new LatLng(esc.getLatitud(), esc.getLongitud()))
-                                                                       .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
-                                                           }
-                                                       }
-                                                   }
-                                               }
+                ArrayList<CustomInfoWindowsAdapter> info = new ArrayList<CustomInfoWindowsAdapter>();
 
-                        );
-                CustomInfoWindowsAdapter info = new CustomInfoWindowsAdapter(
-                        MapaFragment.this.getActivity(),
-                        "Titol",
-                        "Artista",
-                        (BitmapDrawable) getResources().getDrawable(R.drawable.foto1)
-                );
-                mMap.setInfoWindowAdapter(
-                        info
-                );
+                db.collection("Escultures")
+                    //.document()
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot doc : task.getResult()) {
+                                    Escultura esc = doc.toObject(Escultura.class);
+
+                                    llistaNom.add(esc.getNom().get("ca"));
+
+                                    Bitmap imatge = BitmapFactory.decodeByteArray(esc.getImatges().get(0).toBytes(), 0, esc.getImatges().get(0).toBytes().length);
+                                    llistaImatges.add(imatge);
+
+                                    mMap.addMarker(new MarkerOptions()
+                                        .position(new LatLng(esc.getLatitud(), esc.getLongitud()))
+                                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                                    );
+
+                                    info.add(new CustomInfoWindowsAdapter(
+                                        MapaFragment.this.getActivity(),
+                                        esc.getNom().get("ca"),
+                                        esc.getArtista(),
+                                        imatge
+                                    ));
+
+                                    mMap.setInfoWindowAdapter(info.get(pos));
+                                }
+                            }
+                        }
+                    });
+                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(@NonNull Marker marker) {
+                        String id = marker.getId();
+                        id = id.substring(1);
+                        int idNumber = Integer.parseInt(id);
+                        System.out.println(idNumber);
+                        ClickEvent(idNumber);
+                    }
+                });
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(target, 13));
                 mMap.getUiSettings().setZoomControlsEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-                /*
-                CustomInfoWindowsAdapter info = new CustomInfoWindowsAdapter(
-                        MapaFragment.this.getActivity(),
-                        "Titol",
-                        "Artista",
-                        (BitmapDrawable) getResources().getDrawable(R.drawable.foto1)
-                );
-
-                mMap.setInfoWindowAdapter(
-                        info
-                );*/
-
-                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                    @Override
-                    public void onInfoWindowClick(@NonNull Marker marker) {
-
-                    }
-                });
 
                 mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
@@ -148,32 +150,27 @@ public class MapaFragment extends Fragment {
         });
         return rootView;
     }
-    public void ClickEvent(View view) {
-        // Fer un intent a FitxaDetallaArtistas pasan el nom, cognom, imatge, i descripcio
-        /*
-        int posicio = rvArtistes.getChildAdapterPosition(view);
+    public void ClickEvent(int posicio) {
+        // Fer un intent a FitxaDetallaEscultura pasan el nom, cognom, imatge, i descripcio
 
         try {
-            String filename = llistaNom.get(posicio) + "_" + llistaCognoms.get(posicio).replace(" ", "_") + ".png";
+            String filename = llistaNom.get(posicio).replace(" ", "_") + ".png";
 
-            //saveImage(context, llistaImatges.get(posicio), filename);
             new ImageSaver(getContext())
                     .setFileName(filename)
                     .setDirectoryName("images")
                     .save(llistaImatges.get(posicio));
-            //Write file
 
             //Pop intent
-            Intent intent = new Intent(ArtistesFragment.this.getActivity(), FitxaDetalladaArtistes.class);
+            Intent intent = new Intent(MapaFragment.this.getActivity(), FitxaDetalladaEscultures.class);
 
             intent.putExtra("nom", llistaNom.get(posicio));
-            intent.putExtra("cognom", llistaCognoms.get(posicio));
             intent.putExtra("imatge", filename);
 
             startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        */
+
     }
 }

@@ -22,21 +22,28 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class CustomInfoWindowsAdapter implements GoogleMap.InfoWindowAdapter
 {
     private final View mWindwow;
     private Context mContext;
-    private String title;
-    private String artista;
-    private BitmapDrawable image;
 
-    public CustomInfoWindowsAdapter(Context context, String title, String artista, BitmapDrawable image) {
+    private String title;
+    private DocumentReference artista;
+    private Bitmap image;
+
+    public CustomInfoWindowsAdapter(
+            Context context,
+            String title,
+            DocumentReference artista,
+            Bitmap image) {
         mContext = context;
         this.title = title;
         this.artista = artista;
@@ -45,19 +52,19 @@ public class CustomInfoWindowsAdapter implements GoogleMap.InfoWindowAdapter
     }
 
     private void rendowWindowText(Marker marker, View view) {
-        Bitmap selectedImage = image.getBitmap();
+        Bitmap selectedImage = image;
         ImageView picture = (ImageView) view.findViewById(R.id.image);
 
         picture.setImageBitmap(selectedImage);
 
-        String title = this.title;
+        String title = this.title.toString();
         TextView tvTitle = (TextView) view.findViewById(R.id.title);
 
         if (!title.equals("")) {
             tvTitle.setText(title);
         }
 
-        String snippet = this.artista;
+        String snippet = this.artista.toString();
         TextView tvSnipper = (TextView) view.findViewById(R.id.author);
 
         if(!snippet.equals("")) {
@@ -79,32 +86,31 @@ public class CustomInfoWindowsAdapter implements GoogleMap.InfoWindowAdapter
         ArrayList<Double> llistaLongitud = new ArrayList<>();
 
         db.collection("Escultures")
-                //.document()
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                           @Override
-                                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                               if (task.isSuccessful()) {
-                                                   for(QueryDocumentSnapshot doc: task.getResult()) {
-                                                       Escultura esc = doc.toObject(Escultura.class);
-                                                               mMap.addMarker(new MarkerOptions()
-                                                                       .position(new LatLng(esc.getLatitud(), esc.getLongitud()))
-                                                                       .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
-                                                       llistaNom.add(esc.getNom().get("ca"));
-                                                       llistaLatitud.add(esc.getLatitud());
-                                                       llistaLongitud.add(esc.getLongitud());
+            //.document()
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                   @Override
+                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                       if (task.isSuccessful()) {
+                           for(QueryDocumentSnapshot doc: task.getResult()) {
+                               Escultura esc = doc.toObject(Escultura.class);
+                                   mMap.addMarker(new MarkerOptions()
+                                       .position(new LatLng(esc.getLatitud(), esc.getLongitud()))
+                                       .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
+                               llistaNom.add(esc.getNom().get("ca"));
+                               llistaLatitud.add(esc.getLatitud());
+                               llistaLongitud.add(esc.getLongitud());
 
-                                                       for (int i = 0; i < llistaNom.size(); i++) {
-                                                           Log.d("NOMBUCLE", llistaNom.get(i));
-                                                           Log.d("llistaLongitud", ""+ llistaLongitud.get(i));
-                                                           Log.d("llistaLongitud", ""+ llistaLatitud.get(i));
-                                                       }
-                                                   }
-                                               }
-                                           }
-                                       }
-
-                );
+                               for (int i = 0; i < llistaNom.size(); i++) {
+                                   Log.d("NOMBUCLE", llistaNom.get(i));
+                                   Log.d("llistaLongitud", ""+ llistaLongitud.get(i));
+                                   Log.d("llistaLongitud", ""+ llistaLatitud.get(i));
+                               }
+                           }
+                       }
+                   }
+               }
+            );
         Fins aqui*/
         /*for (int i = 0; i < llistaNom.size(); i++) {
             title = llistaNom.get(i);
